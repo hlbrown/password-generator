@@ -25,13 +25,14 @@ var pwdReq = {
 
 // Write password to the #password input
 function writePassword() {
+
   //calling the generatePassword function
   var password = generatePassword();
 
-  //set passwordText to the textArea with the id="#password" on the html page
+  //set passwordText to the textArea 
   var passwordText = document.querySelector("#password");
 
-  //updating the value to the new password
+  //updating the value to the generated password
   passwordText.value = password;
 
 }
@@ -42,13 +43,11 @@ generateBtn.addEventListener("click", writePassword);
 //make a function to generate the password
 function generatePassword() {
 
-    //holds the password to be generated and returned
+    //saves an empty string to fill
   var result ="";
 
   ///variable to collect the input from the user
   var passwordLength = 0;
-  var uppercase;
-  var lowercase;
   var numbers;
   var specialChar;
 
@@ -58,23 +57,23 @@ function generatePassword() {
   result = "";
 
   //check password length
-  while (passwordLength < 8 || passwordLength > 128) {
+  while (passwordLength < 8 || passwordLength > 128) { // \ n(new line character)
     passwordLength = prompt("How many characters do you want your password to be? \nPassword must be between 8 and 128 characters.");
 
     //if user presses cancel
     if (passwordLength === null) {
-      return "your secure password";
+      return "you did not complete password generation";
     }
     else{
       //validating integar entered
       if(!isFinite(passwordLength)) {
         alert("You did not enter a number");
-        return "Your Secure Password";
+        return generatePassword();//checks to make sure the user enters a number
       }else {
         //check password meets length criteria
         if (passwordLength < 8 || passwordLength > 128) {
           alert("Password must be between 8 and 128 characters.");
-          return "Your secure password";
+          return generatePassword();//calls the generatePassword() function to restart if the wrong number was entered
         }
         else {
 
@@ -88,40 +87,37 @@ function generatePassword() {
               showPrompts();
             }
             else {
-              //if the user selected lowercase and there is still room to add characters then
-              //randomly grab a lowercase letter from the array and add it to the end of result 
-              //update pwdLength by 1
+              
+              //if the user selected lowercase randomly grab a lowercase letter from the array and add it to the end of result 
+             
               if (lowerCase === true && pwdReq.pwdLength < passwordLength) {
                 var lc = pwdReq.pwdLowerCase[Math.floor(Math.random() * 26)]
                 result = result + lc;
-                pwdReq.pwdLength++;
+                pwdReq.pwdLength++; //update pwdLength by 1
               }
 
-              //if the user selected a special character and there is still room to add characters then
-              //randomly grab a apecial character from the array and add it to the end of result 
-              //update pwdLength by 1              
+              //if the user selected a special character randomly grab a apecial character from the array and add it to the end of result 
+                         
               if (specialChar === true && pwdReq.pwdLength < passwordLength) {
                 var sc = pwdReq.pwdCharacter[Math.floor(Math.random() * 32)]
                 result = result + sc;
-                pwdReq.pwdLength++;
+                pwdReq.pwdLength++;//update pwdLength by 1  
               }
 
-              //if the user selected an uppercase letter and there is still room to add characters then
-              //randomly grab an uppercase letter from the array and add it to the end of result 
-              //update pwdLength by 1
+              //if the user selected an uppercase letter randomly grab an uppercase letter from the array and add it to the end of result 
+             
               if (upperCase === true && pwdReq.pwdLength < passwordLength) {
                 var uc = pwdReq.pwdUpperCase[Math.floor(Math.random() * 26)]
                 result = result + uc;
-                pwdReq.pwdLength++;
+                pwdReq.pwdLength++;//update pwdLength by 1
               }
 
-              //if the user selected a number and there is still room to add characters then
-              //randomly grab a number from the array and add it to the end of result 
-              //update pwdLength by 1
+              //if the user selected a number randomly grab a number from the array and add it to the end of result 
+             
               if (numbers === true && pwdReq.pwdLength < passwordLength) {
                 var num = pwdReq.pwdNumber[Math.floor(Math.random() * 10)]
                 result = result + num;
-                pwdReq.pwdLength++;
+                pwdReq.pwdLength++;//update pwdLength by 1
               }
             }
           }
